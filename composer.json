@@ -1,0 +1,10 @@
+{
+  "name": "zachl111/forge-sec-scanner-core",
+  "description": "Implement a PHP security tooling project for scanner simulation kernel, using seeded input scenarios and deterministic summary checks.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Portfolio\\": "src/"
+    }
+  }
+}
