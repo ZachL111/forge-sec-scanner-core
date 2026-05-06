@@ -1,0 +1,73 @@
+{
+  "repo": "forge-sec-scanner-core",
+  "language": "PHP",
+  "category": "Security tooling",
+  "goal": "Implement a PHP security tooling project for scanner simulation kernel, using seeded input scenarios and deterministic summary checks.",
+  "review_model": {
+    "terms": [
+      "trust boundary",
+      "claim drift",
+      "replay exposure",
+      "policy width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "trust boundary",
+      "signal": 41,
+      "slack": 21,
+      "drag": 20,
+      "confidence": 79,
+      "score": 122,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "claim drift",
+      "signal": 79,
+      "slack": 22,
+      "drag": 27,
+      "confidence": 91,
+      "score": 190,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "replay exposure",
+      "signal": 81,
+      "slack": 42,
+      "drag": 32,
+      "confidence": 69,
+      "score": 177,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "policy width",
+      "signal": 89,
+      "slack": 49,
+      "drag": 22,
+      "confidence": 63,
+      "score": 224,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "trust boundary",
+      "signal": 57,
+      "slack": 45,
+      "drag": 8,
+      "confidence": 74,
+      "score": 209,
+      "lane": "ship"
+    }
+  ]
+}

@@ -1,44 +1,29 @@
 # forge-sec-scanner-core
 
-`forge-sec-scanner-core` is a PHP project for Security tooling. It turns implement a PHP security tooling project for scanner simulation kernel, using seeded input scenarios and deterministic summary checks into a small local model with readable fixtures and a direct verification command.
+`forge-sec-scanner-core` explores security tooling with a small PHP codebase and local fixtures. The technical goal is to implement a PHP security tooling project for scanner simulation kernel, using seeded input scenarios and deterministic summary checks.
 
-## Reading Forge Sec Scanner Core
+## Project Rationale
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Design Sketch
+## Forge Sec Scanner Core Review Notes
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The PHP implementation uses strict types and a small namespaced policy class.
+Start with `policy width` and `trust boundary`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Purpose
+## Feature Set
 
-The goal is to capture the core behavior in code and make the surrounding assumptions obvious. A reader should be able to run the verifier, open the fixtures, and understand why each decision was made.
+- `fixtures/domain_review.csv` adds cases for trust boundary and claim drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/forge-sec-scanner-walkthrough.md` walks through the case spread.
+- The PHP code includes a review path for `policy width` and `trust boundary`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## What It Does
+## Architecture
 
-- Uses fixture data to keep policy checks changes visible in code review.
-- Includes extended examples for replay guards, including `recovery` and `degraded`.
-- Documents claim validation tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Fixture Notes
-
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Files Worth Reading
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Setup
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
+The PHP code keeps the review rule close to the tests.
 
 ## Usage
 
@@ -46,23 +31,10 @@ Clone the repository, enter the directory, and run the verifier. No database ser
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Test Command
 
-## Verification
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 224, which lands in `ship`. The most cautious case is `baseline` at 122, which lands in `watch`.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Next Improvements
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Limits
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
-
-## Next Directions
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more security tooling fixture that focuses on a malformed or borderline input.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.
