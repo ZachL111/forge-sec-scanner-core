@@ -63,3 +63,9 @@ php tests/test_policy.php
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-forge-sec-scanner-detail.ps1
 
 php tests/test_domain_review.php
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-forge-sec-scanner-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-forge-sec-scanner-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

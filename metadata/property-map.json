@@ -1,0 +1,28 @@
+{
+  "repo": "forge-sec-scanner-core",
+  "language": "PHP",
+  "category": "Security tooling",
+  "goal": "Implement a PHP security tooling project for scanner simulation kernel, using seeded input scenarios and deterministic summary checks.",
+  "weights": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 2
+  },
+  "thresholds": {
+    "ship": 190,
+    "watch": 125
+  },
+  "properties": [
+    "raising signal cannot reduce score",
+    "raising drag cannot improve score",
+    "lane labels must match configured thresholds",
+    "golden fixture ids must remain unique"
+  ],
+  "fixture_files": [
+    "fixtures/golden/scoreboard.csv",
+    "fixtures/golden/lane-matrix.csv",
+    "fixtures/fuzz/mutations.csv",
+    "fixtures/fuzz/boundary-cases.jsonl"
+  ]
+}
